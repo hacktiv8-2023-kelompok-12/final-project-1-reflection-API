@@ -11,14 +11,12 @@ class Handler {
         const {email, password} = req.body;
         try {
             const user = await this.#service.Register(email, password);
-            console.log("passed");
             res.status(201).json({
                 id: user.id,
                 email: user.email
             });
         } catch (err) {
-            console.log(err);
-            if(err instanceof ErrIsExists) {
+            if (err instanceof ErrIsExists) {
                 return res.status(400).json({
                     message: err.message
                 })
@@ -31,10 +29,10 @@ class Handler {
         const {email, password} = req.body;
         try {
             const user = await this.#service.Login(email, password);
-            res.json(user);
-        }catch (err) {
+            return res.json(user.id);
+        } catch (err) {
             if (err instanceof ErrNotFound || err instanceof ErrWrongValue) {
-                res.status(401).json({
+                return res.status(401).json({
                     message: "Email or password invalid!"
                 });
             }

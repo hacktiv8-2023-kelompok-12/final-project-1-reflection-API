@@ -10,18 +10,23 @@ class Auth {
     }
 
     async Register(email, password) {
-        password = Hash(password);
-        console.log("passed hash");
+        await this.#userRepo.GetUserByEmail(email)
+            .then(user => {
+                if(user) {
+                    throw new ErrIsExists("email");
+                }
+            });
+        password = await Hash(password);
         return this.#userRepo.CreateUser(new UserM({email, password}));
     }
 
     Login(email, password) {
         return this.#userRepo.GetUserByEmail(email)
-            .then(user => {
+            .then(async (user) => {
                 if (!user) {
                     throw new ErrNotFound("email");
                 }
-                if (!Compare(user.password, password)) {
+                if (!await Compare(user.password, password)) {
                     throw new ErrWrongValue("password");
                 }
                 return user;
