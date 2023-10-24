@@ -1,4 +1,5 @@
 const {ErrIsExists, ErrNotFound, ErrWrongValue} = require("../../domain/errors");
+const {GenerateToken} = require("../../lib/hash");
 
 class Handler {
     #service;
@@ -29,7 +30,7 @@ class Handler {
         const {email, password} = req.body;
         try {
             const user = await this.#service.Login(email, password);
-            return res.json(user.id);
+            return res.json({access_token: GenerateToken({id: user.id})});
         } catch (err) {
             if (err instanceof ErrNotFound || err instanceof ErrWrongValue) {
                 return res.status(401).json({
