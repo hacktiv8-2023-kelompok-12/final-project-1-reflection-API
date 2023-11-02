@@ -9,3 +9,4 @@ const dbConn = new pg.Pool({
 
 const expressApp = require("./bin/express")({dbConn});
 expressApp.listen(process.env.PORT || 3000);
+
