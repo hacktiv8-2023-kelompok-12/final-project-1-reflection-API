@@ -21,8 +21,8 @@ class Reflection {
         return this.#reflectionRepo.UpdateReflection(reflection);
     }
 
-    Delete(id) {
-        return this.#reflectionRepo.DeleteReflection(id);
+    Delete(id, UserId) {
+        return this.#reflectionRepo.DeleteReflection(id, UserId);
     }
 }
 

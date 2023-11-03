@@ -48,8 +48,8 @@ class Reflection {
 
     UpdateReflection(reflection) {
         return this.#db.query(
-            `UPDATE reflections SET success=$1, low_point=$2, take_away=$3, UserId=$4, updatedAt=$5 WHERE id=$6 RETURNING *`,
-            [reflection.success, reflection.lowPoint, reflection.takeAway, reflection.UserId, new Date(), reflection.id]
+            `UPDATE reflections SET success=$1, low_point=$2, take_away=$3, updatedAt=$4 WHERE id=$5 AND userid=$6 RETURNING *`,
+            [reflection.success, reflection.lowPoint, reflection.takeAway, new Date(), reflection.id, reflection.UserId]
         ).then(
             res => {
                 if (res.rows.length === 0) {
@@ -67,10 +67,10 @@ class Reflection {
         );
     }
 
-    DeleteReflection(reflectionId) {
+    DeleteReflection(reflectionId, UserId) {
         return this.#db.query(
-            `DELETE FROM reflections WHERE id=$1`,
-            [reflectionId]
+            `DELETE FROM reflections WHERE id=$1 AND userid=$2`,
+            [reflectionId, UserId]
         );
     }
 }

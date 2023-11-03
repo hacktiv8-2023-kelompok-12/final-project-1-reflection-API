@@ -83,7 +83,7 @@ class Handler {
                         throw {code: 404};
                     }
                 });
-            await this.#service.Delete(id);
+            await this.#service.Delete(id, UserId);
             return res.json({
                 "message": "Success delete"
             });
