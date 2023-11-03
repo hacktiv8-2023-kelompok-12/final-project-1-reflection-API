@@ -1,8 +1,8 @@
 const {
     VerifyToken
-} = require("../lib/hash")
+} = require("../lib/crypto")
 
-const auth = (User) => async (req, res, next) => {
+const auth = (UserRepo) => async (req, res, next) => {
     try {
         // check header, ada token atau tidak
 
@@ -17,7 +17,7 @@ const auth = (User) => async (req, res, next) => {
         // verify token
         const decode = VerifyToken(token.slice(7))
 
-        const user = await User.getUserById(decode.id);
+        const user = await UserRepo.getUserById(decode.id);
 
         if (!user) {
             throw {
@@ -34,7 +34,7 @@ const auth = (User) => async (req, res, next) => {
         next()
 
     } catch (error) {
-        res.status(error.code || 500).json({message: "Unauthorized"})
+        res.status(error.code || 400).json({message: "Unauthorized"})
     }
 }
 
