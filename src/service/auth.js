@@ -1,4 +1,4 @@
-const {Hash, Compare} = require("../lib/hash");
+const {Hash, Compare} = require("../lib/crypto");
 const UserM = require("../domain/user");
 const {ErrNotFound, ErrWrongValue, ErrIsExists} = require("../domain/errors");
 

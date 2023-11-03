@@ -16,8 +16,3 @@ module.exports = {
         return jwt.verify(token, secretKey, options);
     }
 }
-// kalo Mau ditambah
-// const options = {
-//     expiresIn: '1h', // Contoh waktu kedaluwarsa 1 jam
-//     algorithm: 'HS256' // Contoh algoritma enkripsi
-//   };

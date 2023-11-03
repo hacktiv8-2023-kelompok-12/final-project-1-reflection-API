@@ -1,5 +1,5 @@
 const {ErrIsExists, ErrNotFound, ErrWrongValue} = require("../../domain/errors");
-const {GenerateToken} = require("../../lib/hash");
+const {GenerateToken} = require("../../lib/crypto");
 
 class Handler {
     #service;

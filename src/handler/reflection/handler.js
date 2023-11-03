@@ -54,7 +54,7 @@ class Handler {
             const {id: UserId} = req.user;
             await this.#service.Get(UserId)
                 .then(reflections => {
-                    if (!reflections) {
+                    if (!reflections || reflections.filter(reflection=>reflection.id == id).length === 0) {
                         throw {code: 404};
                     }
                 });
@@ -79,7 +79,7 @@ class Handler {
             const {id: UserId} = req.user;
             await this.#service.Get(UserId)
                 .then(reflections => {
-                    if (!reflections) {
+                    if (!reflections || reflections.filter(reflection=>reflection.id == id).length === 0) {
                         throw {code: 404};
                     }
                 });
