@@ -26,6 +26,16 @@ class User {
                 return new UserM(res.rows[0]);
             });
     }
+
+    getUserById(id) {
+        return this.#db.query("SELECT * FROM users WHERE id=$1", [id])
+          .then(res => {
+            if (res.rows.length === 0) {
+              return null;
+            }
+            return new UserM(res.rows[0]);
+          });
+      }
 }
 
 module.exports = User;
