@@ -1,55 +1,44 @@
 const {
-    verifyToken
-  } = require("../lib/hash")
-  
-  const {
-    User
-  } = require("../domain/user")
+    VerifyToken
+} = require("../lib/hash")
 
-const auth = async(req, res, next) => {
+const auth = (User) => async (req, res, next) => {
     try {
         // check header, ada token atau tidak
-    
+
         const token = req.headers["authorization"]
-    
+
         if (!token) {
-          throw {
-            code: 401,
-            message: "Unauthorized"
-          }
+            throw {
+                code: 401
+            }
         }
-    
+
         // verify token
-        const decode = verifyToken(token)
-    
-        const user = await User.findOne({
-          where: {
-            id: decode.id,
-            email: decode.email
-          }
-        })
-    
+        const decode = VerifyToken(token.slice(7))
+
+        const user = await User.getUserById(decode.id);
+
         if (!user) {
-          throw {
-            code: 401,
-            message: "User not found"
-          }
+            throw {
+                code: 401
+            }
         }
-    
+
         req.user = {
-          id: user.id,
-          email: user.email,
-          username: user.username
+            id: user.id,
+            email: user.email,
+            username: user.username
         }
-    
+
         next()
-    
-      } catch (error) {
-        res.status(error.code || 500).json(error.message)
-      }
+
+    } catch (error) {
+        res.status(error.code || 500).json({message: "Unauthorized"})
+    }
 }
 
 
 module.exports = {
     auth
-  }
+}
